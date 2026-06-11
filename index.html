@@ -446,7 +446,7 @@
     /* ── SCHEDULE PAGE ── */
     .schedule-layout {
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: 200px 220px 1fr;
       min-height: calc(100vh - 290px);
     }
     .schedule-sidebar {
@@ -779,10 +779,14 @@
     .footer-link:hover { color: var(--red); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .main { grid-template-columns: 200px 1fr; }
       .filter-sidebar { display: none; }
+      .schedule-layout { grid-template-columns: 200px 180px 1fr; }
+    }
+    @media (max-width: 900px) {
       .schedule-layout { grid-template-columns: 180px 1fr; }
+      .schedule-layout .whats-new { display: none; }
     }
     @media (max-width: 768px) {
       .hero { grid-template-columns: 1fr; }
@@ -871,9 +875,9 @@
       <div class="wn-header">
         <div class="wn-eyebrow">Terbaru</div>
         <!-- <div class="wn-title">What's<br><span class="wn-accent">New</span></div> -->
-        <div class="wn-count" id="wn-count">— pembaruan</div>
+        <div class="wn-count" id="wn-count-dir">— pembaruan</div>
       </div>
-      <div class="wn-feed" id="wn-feed">
+      <div class="wn-feed" id="wn-feed-dir">
         <div class="wn-empty">Memuat…</div>
       </div>
     </aside>
@@ -933,6 +937,19 @@
   </div>
 
   <div class="schedule-layout">
+
+    <!-- ── WHATS NEW SIDEBAR (Schedule) ── -->
+    <aside class="whats-new">
+      <div class="wn-header">
+        <div class="wn-eyebrow">Terbaru</div>
+        <div class="wn-count" id="wn-count-sch">— pembaruan</div>
+      </div>
+      <div class="wn-feed" id="wn-feed-sch">
+        <div class="wn-empty">Memuat…</div>
+      </div>
+    </aside>
+
+    <!-- ── WEEK NAV SIDEBAR ── -->
     <nav class="schedule-sidebar">
       <div class="fs-header">
         <div class="fs-label">Per Minggu</div>
@@ -942,9 +959,11 @@
       </div>
     </nav>
 
+    <!-- ── SCHEDULE CONTENT ── -->
     <div class="schedule-content" id="schedule-content">
       <div class="sch-empty">Memuat jadwal…</div>
     </div>
+
   </div>
 
 </div><!-- /panel-schedule -->
@@ -1035,7 +1054,8 @@ function render(data) {
   document.getElementById('fc-product').textContent = data.productUpdates.length;
   document.getElementById('fc-dept').textContent    = data.otherDept.length;
   document.getElementById('tab-badge-dir').textContent = total;
-  renderWhatsNew(data.changelog);
+  renderWhatsNew(data.changelog, 'wn-feed-dir', 'wn-count-dir');
+  renderWhatsNew(data.changelog, 'wn-feed-sch', 'wn-count-sch');
   renderContent(data);
 }
 
@@ -1055,9 +1075,11 @@ function parseDate(str) {
   return 0;
 }
 
-function renderWhatsNew(changelog) {
-  const feed = document.getElementById('wn-feed');
-  document.getElementById('wn-count').textContent = changelog.length + ' pembaruan';
+function renderWhatsNew(changelog, feedId, countId) {
+  const feed = document.getElementById(feedId);
+  const countEl = document.getElementById(countId);
+  if (!feed || !countEl) return;
+  countEl.textContent = changelog.length + ' pembaruan';
   if (!changelog.length) { feed.innerHTML = '<div class="wn-empty">Belum ada pembaruan.</div>'; return; }
   const sorted = [...changelog].sort((a, b) => parseDate(b.date) - parseDate(a.date));
   feed.innerHTML = sorted.map(item => `
@@ -1162,7 +1184,8 @@ async function loadData() {
   } catch(e) {
     document.getElementById('topbar-status').textContent = 'Gagal memuat data';
     document.getElementById('content').innerHTML = '<div class="empty">Gagal memuat data dari Google Sheet. Coba refresh kembali.</div>';
-    document.getElementById('wn-feed').innerHTML = '<div class="wn-empty">Gagal memuat.</div>';
+    document.getElementById('wn-feed-dir').innerHTML = '<div class="wn-empty">Gagal memuat.</div>';
+    document.getElementById('wn-feed-sch').innerHTML = '<div class="wn-empty">Gagal memuat.</div>';
   } finally {
     btn.classList.remove('loading');
   }
