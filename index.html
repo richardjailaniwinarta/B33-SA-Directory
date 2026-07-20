@@ -1,1572 +1,386 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>B33 SA Team Directory</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --cream: #f5f0e8;
-      --paper: #faf8f3;
-      --ink: #1a1710;
-      --ink2: #3d3a30;
-      --muted: #8a8472;
-      --divider: #d6d0c0;
-      --red: #c0392b;
-      --forest: #2d5a3d;
-      --gold: #b5860d;
-      --blue: #1a3a5c;
-      --tag-bg: #e8e2d2;
-      --card-bg: #ffffff;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: var(--paper);
-      color: var(--ink);
-      min-height: 100vh;
-      padding-bottom: 10px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batch 33 — Hall of Fame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #3d0d29;
+    --bg-2: #6e1846;
+    --bg-3: #8a2159;
+    --gold: #f7b733;
+    --gold-deep: #d99110;
+    --teal: #2fd0a3;
+    --teal-deep: #16a17b;
+    --orange: #ff8a3d;
+    --cream: #fdf3ea;
+    --cream-dim: #e9c9d8;
+    --ink: #2a0d1c;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(255,138,61,0.25), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 85% 10%, rgba(47,208,163,0.18), transparent 55%),
+      linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+    background-attachment:fixed;
+    color:var(--cream);
+    min-height:100vh;
+    padding:0 0 80px 0;
+    overflow-x:hidden;
+    position:relative;
+  }
 
-    /* ── TOP BAR ── */
-    .topbar {
-      background: var(--ink);
-      color: var(--cream);
-      padding: 0 40px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .topbar-left { display: flex; align-items: center; gap: 24px; }
-    .topbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #c0392b; display: inline-block; margin-right: 8px; animation: blink 2s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  /* winding trail lines echoing the source screenshot */
+  .trails{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.5;}
 
-    /* ── HERO ── */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 0;
-      border-bottom: 1.5px solid var(--ink);
-      min-height: 200px;
-    }
-    .hero-left {
-      padding: 44px 48px 40px;
-      border-right: 1.5px solid var(--ink);
-    }
-    .hero-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 24px;
-      height: 1.5px;
-      background: var(--red);
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(44px, 6vw, 72px);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-    }
-    h1 .accent { color: var(--red); font-style: italic; }
-    .hero-sub {
-      margin-top: 20px;
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 420px;
-      line-height: 1.7;
-    }
-    .hero-right {
-      padding: 32px 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .hero-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5px;
-      background: var(--ink);
-      border: 1.5px solid var(--ink);
-      margin-bottom: 20px;
-    }
-    .stat-cell {
-      background: var(--paper);
-      padding: 16px 18px;
-    }
-    .stat-cell:nth-child(1) { background: var(--ink); color: var(--cream); }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .stat-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0.6;
-    }
-    .refresh-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: var(--red);
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s;
-    }
-    .refresh-btn:hover { background: #a93226; }
-    .refresh-btn.loading .spin { animation: rotate 0.8s linear infinite; }
-    @keyframes rotate { to { transform: rotate(360deg); } }
+  .wrap{position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 28px;}
 
-    /* ── PAGE TABS ── */
-    .page-tabs {
-      display: flex;
-      align-items: stretch;
-      border-bottom: 1.5px solid var(--ink);
-      background: var(--paper);
-    }
-    .page-tab {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 28px;
-      height: 46px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      border-bottom: 2.5px solid transparent;
-      border-right: 1px solid var(--divider);
-      transition: all 0.15s;
-      user-select: none;
-      background: none;
-      border-top: none;
-      border-left: none;
-      font-weight: 400;
-    }
-    .page-tab:hover { color: var(--ink); background: var(--cream); }
-    .page-tab.active {
-      color: var(--ink);
-      border-bottom-color: var(--red);
-      background: var(--cream);
-      font-weight: 500;
-    }
-    .page-tab .tab-icon { font-size: 13px; }
-    .tab-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      background: var(--tag-bg);
-      color: var(--muted);
-      padding: 1px 5px;
-      border-radius: 3px;
-    }
-    .page-tab.active .tab-badge { background: var(--red); color: #fff; }
+  header{
+    text-align:center;
+    padding:56px 20px 34px;
+  }
+  .brand{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:15px;
+    letter-spacing:0.14em;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    opacity:0.75;
+    margin-bottom:6px;
+  }
+  .brand .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(32px, 5vw, 54px);
+    margin:6px 0 10px;
+    line-height:1.05;
+    background:linear-gradient(90deg, var(--gold) 0%, #ffd979 45%, var(--orange) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    font-size:16px;
+    color:var(--cream-dim);
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.6;
+  }
 
-    /* ── PAGE PANELS ── */
-    .page-panel { display: none; }
-    .page-panel.active { display: block; }
+  .stat-row{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:28px;
+  }
+  .stat-pill{
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    backdrop-filter:blur(6px);
+    padding:10px 20px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .stat-pill .num{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:18px;
+  }
+  .stat-pill.gold .num{color:var(--gold);}
+  .stat-pill.teal .num{color:var(--teal);}
 
-    /* ── TOOLBAR ── */
-    .toolbar {
-      display: flex;
-      align-items: stretch;
-      border-bottom: 1.5px solid var(--ink);
-    }
-    .search-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 24px;
-    }
-    .search-wrap svg { color: var(--muted); flex-shrink: 0; }
-    #search {
-      flex: 1;
-      background: none;
-      border: none;
-      outline: none;
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 14px;
-      color: var(--ink);
-      padding: 14px 0;
-    }
-    #search::placeholder { color: var(--muted); }
+  section{margin-top:54px;}
 
-    /* ── MAIN LAYOUT ── */
-    .main { display: grid; grid-template-columns: 260px 200px 1fr; min-height: calc(100vh - 290px); }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--card-border);
+    padding-bottom:16px;
+  }
+  .section-title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:24px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-title .badge{
+    font-size:12px;
+    font-weight:800;
+    padding:4px 10px;
+    border-radius:999px;
+    letter-spacing:0.04em;
+  }
+  .badge.gold{background:rgba(247,183,51,0.18); color:var(--gold); border:1px solid rgba(247,183,51,0.4);}
+  .badge.teal{background:rgba(47,208,163,0.16); color:var(--teal); border:1px solid rgba(47,208,163,0.4);}
+  .section-note{font-size:13px; color:var(--cream-dim); max-width:340px; text-align:right;}
 
-    /* ── FILTER SIDEBAR ── */
-    .filter-sidebar {
-      border-right: 1.5px solid var(--ink);
-      position: sticky;
-      top: 44px;
-      height: calc(100vh - 44px);
-      overflow-y: auto;
-      background: var(--paper);
-    }
-    .fs-header { padding: 20px 20px 14px; border-bottom: 1px solid var(--divider); }
-    .fs-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .fs-label::before { content: ''; display: inline-block; width: 14px; height: 1.5px; background: var(--divider); }
-    .fs-nav { padding: 10px 0; }
-    .fs-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 12.5px;
-      font-weight: 400;
-      color: var(--ink2);
-      border-left: 3px solid transparent;
-      transition: all 0.15s;
-      user-select: none;
-    }
-    .fs-item:hover { background: var(--cream); color: var(--ink); }
-    .fs-item.active {
-      border-left-color: var(--red);
-      background: var(--cream);
-      font-weight: 500;
-      color: var(--ink);
-    }
-    .fs-item-left { display: flex; align-items: center; gap: 8px; }
-    .fs-icon { font-size: 13px; flex-shrink: 0; }
-    .fs-count {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--tag-bg);
-      border-radius: 3px;
-      padding: 1px 6px;
-      flex-shrink: 0;
-    }
-    .fs-item.active .fs-count { background: var(--red); color: #fff; }
+  /* FULL SCORE GRID */
+  .full-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:16px;
+  }
+  .full-card{
+    position:relative;
+    background:linear-gradient(160deg, rgba(247,183,51,0.14), rgba(255,255,255,0.04));
+    border:1px solid rgba(247,183,51,0.35);
+    border-radius:16px;
+    padding:20px 18px 18px;
+    overflow:hidden;
+    transition:transform 0.18s ease, border-color 0.18s ease;
+  }
+  .full-card:hover{transform:translateY(-3px); border-color:rgba(247,183,51,0.7);}
+  .full-card::before{
+    content:"";
+    position:absolute; top:-30px; right:-30px;
+    width:90px; height:90px;
+    background:radial-gradient(circle, rgba(247,183,51,0.35), transparent 70%);
+  }
+  .full-card .trophy{
+    font-size:22px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:38px; height:38px;
+    border-radius:10px;
+    background:rgba(247,183,51,0.2);
+    margin-bottom:14px;
+  }
+  .full-card .name{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--cream);
+    margin-bottom:6px;
+    line-height:1.25;
+  }
+  .full-card .track{
+    font-size:12px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:14px;
+  }
+  .full-card .score-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-top:1px dashed rgba(247,183,51,0.3);
+    padding-top:12px;
+  }
+  .full-card .score{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    color:var(--gold);
+  }
+  .full-card .score-label{font-size:10px; color:var(--cream-dim); text-transform:uppercase; letter-spacing:0.06em;}
 
-    /* ── WHATS NEW SIDEBAR ── */
-    .whats-new {
-      border-right: 1.5px solid var(--ink);
-      position: sticky;
-      top: 44px;
-      height: calc(100vh - 44px);
-      overflow-y: auto;
-      background: var(--ink);
-      color: var(--cream);
-    }
-    .wn-header { padding: 20px 22px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .wn-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .wn-eyebrow::before { content: ''; display: inline-block; width: 14px; height: 1.5px; background: var(--red); }
-    .wn-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--cream); }
-    .wn-title .wn-accent { color: var(--red); font-style: italic; }
-    .wn-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(245,240,232,0.4); margin-top: 6px; }
-    .wn-feed { padding: 8px 0; }
-    .wn-item { padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.15s; cursor: default; }
-    .wn-item:last-child { border-bottom: none; }
-    .wn-item:hover { background: rgba(255,255,255,0.05); }
-    .wn-item-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 0.06em; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
-    .wn-item-date::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
-    .wn-item-text { font-size: 12.5px; font-weight: 400; color: rgba(245,240,232,0.82); line-height: 1.55; }
-    .wn-empty { padding: 32px 22px; font-size: 12px; font-style: italic; color: rgba(245,240,232,0.35); text-align: center; }
+  /* COMPLETION LIST */
+  .comp-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .comp-row{
+    display:grid;
+    grid-template-columns:36px 1fr auto auto;
+    align-items:center;
+    gap:16px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:12px;
+    padding:13px 18px;
+  }
+  .comp-rank{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--cream-dim);
+  }
+  .comp-name{
+    font-weight:600;
+    font-size:15px;
+    color:var(--cream);
+  }
+  .comp-track{
+    font-size:11px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    background:rgba(255,255,255,0.06);
+    padding:4px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .comp-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-self:end;
+  }
+  .comp-score{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    color:var(--teal);
+  }
+  .comp-check{
+    font-size:11px;
+    font-weight:700;
+    color:var(--teal);
+    background:rgba(47,208,163,0.14);
+    border:1px solid rgba(47,208,163,0.35);
+    padding:4px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
 
-    /* ── CONTENT AREA ── */
-    .content { padding: 0; }
-    .section-block { border-bottom: 1.5px solid var(--divider); padding-bottom: 24px; }
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 32px;
-      border-bottom: 1px solid var(--divider);
-      background: rgba(26,23,16,0.02);
-      margin-bottom: 20px;
-    }
-    .section-head-left { display: flex; align-items: center; gap: 14px; }
-    .section-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; font-weight: 500; }
-    .section-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--ink); }
-    .section-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  footer{
+    text-align:center;
+    margin-top:60px;
+    font-size:12px;
+    color:var(--cream-dim);
+    opacity:0.6;
+  }
 
-    /* ── CARD LAYOUT & DESIGN ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-      padding: 0 32px;
-    }
-    .directory-card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--divider);
-      border-radius: 6px;
-      overflow: hidden;
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .directory-card:hover {
-      border-color: var(--ink);
-      box-shadow: 0 4px 12px rgba(26,23,16,0.05);
-      transform: translateY(-1px);
-    }
-    .card-header {
-      padding: 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      cursor: pointer;
-      user-select: none;
-      background: #fff;
-    }
-    .card-num {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-    .card-title-area { flex: 1; min-width: 0; }
-    .card-title {
-      font-size: 14.5px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
-    .card-chevron {
-      color: var(--muted);
-      transition: transform 0.2s ease;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .directory-card.expanded .card-chevron { transform: rotate(180deg); color: var(--red); }
-    .directory-card.expanded { border-color: var(--ink); }
-    .card-content {
-      display: none;
-      padding: 0 16px 16px 16px;
-      background: #fff;
-      border-top: 1px dashed var(--divider);
-    }
-    .directory-card.expanded .card-content { display: block; }
-    .desc-box {
-      margin-top: 12px;
-      padding: 10px 12px;
-      background: var(--paper);
-      border-left: 3.5px solid var(--muted);
-      border-radius: 0 4px 4px 0;
-    }
-    .desc-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2px;
-    }
-    .desc-text { font-size: 13px; color: var(--ink2); line-height: 1.45; word-break: break-word; }
-    .desc-link { display: inline-block; color: #1a3a5c; text-decoration: underline; font-weight: 500; word-break: break-all; }
-    .desc-link:hover { color: var(--red); }
-    .card-action-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 14px;
-      width: 100%;
-      padding: 8px 12px;
-      background: var(--ink);
-      color: var(--cream);
-      text-decoration: none;
-      font-size: 12px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-weight: 500;
-      border-radius: 4px;
-      transition: background 0.15s;
-    }
-    .card-action-btn:hover { background: var(--red); color: #fff; }
-    .no-url-badge {
-      display: block;
-      text-align: center;
-      margin-top: 14px;
-      font-size: 11px;
-      color: var(--muted);
-      font-style: italic;
-      padding: 6px;
-      background: rgba(26,23,16,0.03);
-      border-radius: 4px;
-    }
-
-    /* ── SCHEDULE PAGE ── */
-    .schedule-layout {
-      display: grid;
-      grid-template-columns: 200px 220px 1fr;
-      min-height: calc(100vh - 290px);
-    }
-    .schedule-sidebar {
-      border-right: 1.5px solid var(--ink);
-      position: sticky;
-      top: 44px;
-      height: calc(100vh - 44px);
-      overflow-y: auto;
-      background: var(--paper);
-    }
-    .sch-toolbar {
-      display: flex;
-      align-items: stretch;
-      border-bottom: 1.5px solid var(--ink);
-    }
-    .sch-search-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 24px;
-    }
-    .sch-search-wrap svg { color: var(--muted); flex-shrink: 0; }
-    #sch-search {
-      flex: 1;
-      background: none;
-      border: none;
-      outline: none;
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 14px;
-      color: var(--ink);
-      padding: 14px 0;
-    }
-    #sch-search::placeholder { color: var(--muted); }
-    .sch-view-toggle {
-      display: flex;
-      align-items: center;
-      border-left: 1.5px solid var(--divider);
-    }
-    .view-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 18px;
-      height: 100%;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      background: none;
-      border: none;
-      border-right: 1px solid var(--divider);
-      transition: all 0.15s;
-    }
-    .view-btn:last-child { border-right: none; }
-    .view-btn:hover { background: var(--cream); color: var(--ink); }
-    .view-btn.active { background: var(--ink); color: var(--cream); }
-
-    /* Schedule week sidebar */
-    .week-nav { padding: 10px 0; }
-    .week-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 12px;
-      color: var(--ink2);
-      border-left: 3px solid transparent;
-      transition: all 0.15s;
-      user-select: none;
-    }
-    .week-item:hover { background: var(--cream); color: var(--ink); }
-    .week-item.active {
-      border-left-color: var(--forest);
-      background: var(--cream);
-      font-weight: 500;
-      color: var(--ink);
-    }
-    .week-item-left { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
-    .week-count {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--tag-bg);
-      border-radius: 3px;
-      padding: 1px 6px;
-    }
-    .week-item.active .week-count { background: var(--forest); color: #fff; }
-
-    /* Schedule content */
-    .schedule-content { overflow-y: auto; }
-
-    /* ── TABLE VIEW ── */
-    .sch-table-wrap { padding: 24px 32px; overflow-x: auto; }
-    .sch-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .sch-table thead tr {
-      border-bottom: 2px solid var(--ink);
-    }
-    .sch-table th {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    .sch-table td {
-      padding: 13px 14px;
-      vertical-align: top;
-      border-bottom: 1px solid var(--divider);
-      color: var(--ink2);
-      line-height: 1.5;
-    }
-    .sch-table tr:hover td { background: rgba(26,23,16,0.02); }
-    .sch-table .col-no {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      width: 40px;
-    }
-    .sch-table .col-week {
-      white-space: nowrap;
-    }
-    .week-pill {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 3px;
-      background: var(--tag-bg);
-      color: var(--ink2);
-      white-space: nowrap;
-      display: inline-block;
-    }
-    .week-pill.w0 { background: #f0ebe0; color: #5a5040; }
-    .week-pill.w1 { background: #e8f0fb; color: var(--blue); }
-    .week-pill.w2 { background: #fdecea; color: #7b1f1a; }
-    .week-pill.w3 { background: #e6f2eb; color: #1a3d2a; }
-    .week-pill.w4 { background: #fdf6e3; color: #7a5c00; }
-    .week-pill.w5 { background: #f3e8fb; color: #4a1a7a; }
-    .week-pill.w6 { background: #e8fbf8; color: #1a4a42; }
-    .week-pill.w7 { background: #fbe8e8; color: #7a1a1a; }
-    .dept-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 3px;
-      background: var(--cream);
-      color: var(--ink2);
-      white-space: nowrap;
-    }
-    .pic-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 3px;
-      color: var(--forest);
-      background: #e6f2eb;
-      white-space: nowrap;
-    }
-    .time-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .ref-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--blue);
-      font-size: 12px;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      word-break: break-all;
-      transition: color 0.15s;
-    }
-    .ref-link:hover { color: var(--red); text-decoration-color: var(--red); }
-    .ref-text {
-      font-size: 12px;
-      color: var(--ink2);
-      font-style: italic;
-    }
-    .rec-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--red);
-      font-size: 11px;
-      font-family: 'IBM Plex Mono', monospace;
-      text-decoration: none;
-      border: 1px solid rgba(192,57,43,0.3);
-      padding: 3px 8px;
-      border-radius: 3px;
-      transition: all 0.15s;
-    }
-    .rec-link:hover { background: var(--red); color: #fff; }
-
-    /* ── TIMELINE VIEW ── */
-    .sch-timeline { padding: 0; }
-    .timeline-week-block { border-bottom: 1.5px solid var(--divider); }
-    .timeline-week-head {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 18px 32px;
-      background: rgba(26,23,16,0.02);
-      border-bottom: 1px solid var(--divider);
-      cursor: pointer;
-      user-select: none;
-    }
-    .timeline-week-head:hover { background: var(--cream); }
-    .timeline-week-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .timeline-week-count {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      margin-left: auto;
-    }
-    .timeline-week-chev {
-      color: var(--muted);
-      transition: transform 0.2s;
-    }
-    .timeline-week-block.open .timeline-week-chev { transform: rotate(180deg); }
-    .timeline-days { display: none; }
-    .timeline-week-block.open .timeline-days { display: block; }
-    .timeline-day-group { border-bottom: 1px solid var(--divider); }
-    .timeline-day-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 32px 12px 48px;
-      background: rgba(26,23,16,0.015);
-      border-bottom: 1px dashed var(--divider);
-    }
-    .timeline-day-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .timeline-day-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--divider);
-      flex-shrink: 0;
-    }
-    .timeline-items { padding: 8px 0; }
-    .timeline-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 12px 32px 12px 56px;
-      border-bottom: 1px solid rgba(214,208,192,0.4);
-      transition: background 0.15s;
-    }
-    .timeline-item:last-child { border-bottom: none; }
-    .timeline-item:hover { background: rgba(26,23,16,0.02); }
-    .timeline-item-num {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      width: 22px;
-      flex-shrink: 0;
-      padding-top: 2px;
-    }
-    .timeline-item-body { flex: 1; min-width: 0; }
-    .timeline-item-title {
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.4;
-      margin-bottom: 6px;
-    }
-    .timeline-item-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-    }
-    .timeline-item-ref {
-      margin-top: 6px;
-    }
-
-    /* empty state */
-    .empty { padding: 40px 32px; text-align: center; color: var(--muted); font-size: 13px; font-style: italic; grid-column: 1 / -1; }
-    .sch-empty { padding: 60px 32px; text-align: center; color: var(--muted); font-size: 13px; font-style: italic; }
-
-    /* ── FOOTER ── */
-    footer {
-      display: block;
-      text-align: center;
-      padding: 10px 10px;
-      margin-top: 1px;
-      border-top: 1px solid var(--divider);
-      background: var(--paper);
-    }
-    .footer-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .footer-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
-    .footer-link:hover { color: var(--red); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1200px) {
-      .main { grid-template-columns: 200px 1fr; }
-      .filter-sidebar { display: none; }
-      .schedule-layout { grid-template-columns: 200px 180px 1fr; }
-    }
-    @media (max-width: 900px) {
-      .schedule-layout { grid-template-columns: 180px 1fr; }
-      .schedule-layout .whats-new { display: none; }
-    }
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { border-top: 1.5px solid var(--ink); }
-      .main { grid-template-columns: 1fr; }
-      .schedule-layout { grid-template-columns: 1fr; }
-      .schedule-sidebar { position: static; height: auto; border-right: none; border-bottom: 1.5px solid var(--ink); }
-      .whats-new { position: static; height: auto; border-right: none; border-bottom: 1.5px solid var(--ink); }
-      .topbar { padding: 0 16px; }
-      .cards-grid { padding: 0 16px; }
-      .sch-table-wrap { padding: 16px; }
-      .page-tab { padding: 0 16px; font-size: 10px; }
-    }
-  </style>
+  @media (max-width:640px){
+    .section-note{display:none;}
+    .comp-row{grid-template-columns:28px 1fr; row-gap:6px;}
+    .comp-track{grid-column:2/3;}
+    .comp-meta{grid-column:1/3; justify-self:start;}
+  }
+</style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-left">
-    <span><span class="topbar-dot"></span>B33 · SA TEAM DIRECTORY</span>
-    <span id="topbar-time">— Alpha Test</span>
-  </div>
-  <span id="topbar-status">Memuat…</span>
+<svg class="trails" viewBox="0 0 1200 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M -50 60 C 250 60, 300 260, 560 300" stroke="var(--orange)" stroke-width="4" fill="none" opacity="0.35"/>
+  <path d="M 520 -30 C 480 150, 560 220, 610 300" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.2"/>
+  <path d="M 760 -30 C 800 160, 760 260, 700 380" stroke="var(--teal)" stroke-width="4" fill="none" opacity="0.3"/>
+</svg>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="dot"></span> BATCH 33 &middot; PERFORMANCE RECAP</div>
+    <h1>Hall of Fame</h1>
+    <p class="subtitle">Daftar student dengan pencapaian terbaik pada Batch 33</p>
+    <div class="stat-row">
+      <div class="stat-pill gold"><span class="num">16</span> Full Score (5400)</div>
+      <div class="stat-pill teal"><span class="num">12</span> Completion 100%</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <div class="section-title"><span class="badge gold">TOP</span> Full Score — 5400</div>
+      <div class="section-note">Student yang menyelesaikan seluruh Task dengan nilai Sempurna.</div>
+    </div>
+    <div class="full-grid" id="fullGrid"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="section-title"><span class="badge teal">100%</span> Completion Rate</div>
+      <div class="section-note">Menyelesaikan semua Task, namun Belum Berhasil Full Score.</div>
+    </div>
+    <div class="comp-list" id="compList"></div>
+  </section>
+
+  <footer>Made by Richard J Winarta &middot; Batch 33 &middot; Hall of Fame</footer>
 </div>
-
-<div class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">Student Advisor · Batch 33</div>
-    <h1>SA Team<br><span class="accent">Directory</span></h1>
-    <p class="hero-sub">Semua Useful Link, Update produk, jadwal kegiatan, dan catatan perubahan tersedia di satu halaman untuk seluruh tim SA.</p>
-  </div>
-  <div class="hero-right">
-    <div class="hero-stats">
-      <div class="stat-cell">
-        <div class="stat-num" id="stat-links">—</div>
-        <div class="stat-label">Useful Links</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num" id="stat-product">—</div>
-        <div class="stat-label">Product Update</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num" id="stat-dept">—</div>
-        <div class="stat-label">Other Dept</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num" id="stat-log">—</div>
-        <div class="stat-label">What's New</div>
-      </div>
-    </div>
-    <button class="refresh-btn" onclick="loadData()">
-      <svg class="spin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-      Refresh Data
-    </button>
-  </div>
-</div>
-
-<!-- ── PAGE TABS ── -->
-<div class="page-tabs">
-  <button class="page-tab active" onclick="switchTab('schedule', this)">
-    <span class="tab-icon">📅</span>
-    Schedule
-    <span class="tab-badge" id="tab-badge-sch">—</span>
-  </button>
-  <button class="page-tab" onclick="switchTab('directory', this)">
-    <span class="tab-icon">🗂</span>
-    Directory
-    <span class="tab-badge" id="tab-badge-dir">—</span>
-  </button>
-</div>
-
-<!-- ══════════════════════════════════════════
-     TAB 1 — DIRECTORY
-══════════════════════════════════════════ -->
-<div class="page-panel" id="panel-directory">
-
-  <div class="toolbar">
-    <div class="search-wrap">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="search" type="text" placeholder="Cari link atau update…" oninput="filterAll()">
-    </div>
-  </div>
-
-  <div class="main">
-    <aside class="whats-new">
-      <div class="wn-header">
-        <div class="wn-eyebrow">Terbaru</div>
-        <!-- <div class="wn-title">What's<br><span class="wn-accent">New</span></div> -->
-        <div class="wn-count" id="wn-count-dir">— pembaruan</div>
-      </div>
-      <div class="wn-feed" id="wn-feed-dir">
-        <div class="wn-empty">Memuat…</div>
-      </div>
-    </aside>
-
-    <nav class="filter-sidebar">
-      <div class="fs-header">
-        <div class="fs-label">Filter</div>
-      </div>
-      <div class="fs-nav">
-        <div class="fs-item active" onclick="setFilter('all', this)">
-          <div class="fs-item-left"><span class="fs-icon">☰</span> Semua</div>
-          <span class="fs-count" id="fc-all">—</span>
-        </div>
-        <div class="fs-item" onclick="setFilter('links', this)">
-          <div class="fs-item-left"><span class="fs-icon">🔗</span> Useful Links</div>
-          <span class="fs-count" id="fc-links">—</span>
-        </div>
-        <div class="fs-item" onclick="setFilter('product', this)">
-          <div class="fs-item-left"><span class="fs-icon">📦</span> Product Team</div>
-          <span class="fs-count" id="fc-product">—</span>
-        </div>
-        <div class="fs-item" onclick="setFilter('dept', this)">
-          <div class="fs-item-left"><span class="fs-icon">🏢</span> Other Dept</div>
-          <span class="fs-count" id="fc-dept">—</span>
-        </div>
-      </div>
-    </nav>
-
-    <div class="content" id="content">
-      <div class="empty">Memuat data…</div>
-    </div>
-  </div>
-
-</div><!-- /panel-directory -->
-
-
-<!-- ══════════════════════════════════════════
-     TAB 2 — SCHEDULE
-══════════════════════════════════════════ -->
-<div class="page-panel active" id="panel-schedule">
-
-  <div class="sch-toolbar">
-    <div class="sch-search-wrap">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="sch-search" type="text" placeholder="Cari kegiatan, PIC, atau departemen…" oninput="renderSchedule()">
-    </div>
-    <div class="sch-view-toggle">
-      <button class="view-btn active" id="vbtn-table" onclick="setSchView('table')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
-        Tabel
-      </button>
-      <button class="view-btn" id="vbtn-timeline" onclick="setSchView('timeline')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        Timeline
-      </button>
-    </div>
-  </div>
-
-  <div class="schedule-layout">
-
-    <!-- ── WHATS NEW SIDEBAR (Schedule) ── -->
-    <aside class="whats-new">
-      <div class="wn-header">
-        <div class="wn-eyebrow">Terbaru</div>
-        <div class="wn-count" id="wn-count-sch">— pembaruan</div>
-      </div>
-      <div class="wn-feed" id="wn-feed-sch">
-        <div class="wn-empty">Memuat…</div>
-      </div>
-    </aside>
-
-    <!-- ── WEEK NAV SIDEBAR ── -->
-    <nav class="schedule-sidebar">
-      <div class="fs-header">
-        <div class="fs-label">Per Minggu</div>
-      </div>
-      <div class="week-nav" id="week-nav">
-        <!-- filled by JS -->
-      </div>
-    </nav>
-
-    <!-- ── SCHEDULE CONTENT ── -->
-    <div class="schedule-content" id="schedule-content">
-      <div class="sch-empty">Memuat jadwal…</div>
-    </div>
-
-  </div>
-
-</div><!-- /panel-schedule -->
-
-
-<footer>
-  <div class="footer-text">  </div>
-  <a href="https://www.instagram.com/assistby.rjw/" target="_blank" class="footer-link">
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 6px;">
-      <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-    </svg> @assistby.rjw
-  </a>
-</footer>
 
 <script>
-// ═══════════════════════════════════════
-// DIRECTORY (Tab 1) — original logic
-// ═══════════════════════════════════════
-const SHEET_ID   = '1vFBja0ZCi74xFgv51B0XfL-_2Moot2PNS3CtjOrnhrc';
-const SHEET_NAME = 'Database';
-const CSV_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+const fullScore = [
+  ["Ayu Rachma Wardhani","EMAIL MARKETING"],
+  ["Bustang","LEAD GENERATION"],
+  ["Erimita Nurfajar","LEAD GENERATION"],
+  ["Faiza Binar","LEAD GENERATION"],
+  ["Fajar Rizkia Istaridanti","LEAD GENERATION"],
+  ["Fitri Nur Indahsari","LEAD GENERATION"],
+  ["ILHAM PRIMADIANTI","EMAIL MARKETING"],
+  ["Inna soetikno","SMM"],
+  ["Jeslyn Gracia Vallery","SMM"],
+  ["Kartika Puji Rahayu","SMM"],
+  ["Kezia Revina Kusumaningrum","LEAD GENERATION"],
+  ["Periyana","EMAIL MARKETING"],
+  ["Rindi Nuraini","EMAIL MARKETING"],
+  ["Siti Hasiati Dyah","EMAIL MARKETING"],
+  ["Tan Lusi Oktavia","LEAD GENERATION"],
+  ["Yulia Emidari","LEAD GENERATION"]
+];
 
-let allData = null;
-let currentFilter = 'all';
+const completedNotFull = [
+  ["Ni Kadek Sukartini", 5560, "LEAD GENERATION"],
+  ["Winna Angela", 5550, "SMM"],
+  ["Sri Rahayu", 5500, "LEAD GENERATION"],
+  ["Susan", 5500, "LEAD GENERATION"],
+  ["Maria Magareta", 5390, "LEAD GENERATION"],
+  ["Dani Herdiana", 5350, "LEAD GENERATION"],
+  ["Devi Novitasari", 5250, "LEAD GENERATION"],
+  ["Irani Ruth Julita Sinaga", 5250, "EMAIL MARKETING"],
+  ["Atika Prihantini", 5050, "EMAIL MARKETING"],
+  ["Febriani Beribin Titi Tokan", 4950, "LEAD GENERATION"],
+  ["Putu Ayu Ariesta Pradnya Paramitha", 4770, "LEAD GENERATION"],
+  ["Nobel Rosulla", 4640, "SMM"]
+];
 
-function parseCSV(text) {
-  const records = [];
-  let i = 0, n = text.length;
-  while (i < n) {
-    const row = [];
-    while (true) {
-      let cell = '';
-      if (text[i] === '"') {
-        i++;
-        while (i < n) {
-          if (text[i] === '"' && text[i+1] === '"') { cell += '"'; i += 2; }
-          else if (text[i] === '"') { i++; break; }
-          else { cell += text[i++]; }
-        }
-      } else {
-        while (i < n && text[i] !== ',' && text[i] !== '\r' && text[i] !== '\n') cell += text[i++];
-      }
-      row.push(cell.trim());
-      if (text[i] === ',') { i++; continue; }
-      if (text[i] === '\r') i++;
-      if (text[i] === '\n') i++;
-      break;
-    }
-    records.push(row);
-  }
-  if (!records.length) return null;
-  const usefulLinks=[], productUpdates=[], otherDept=[], changelog=[];
-  let startRow = 1;
-  if (records[0] && (records[0][0].toLowerCase().includes('nama') || records[0][0].toLowerCase().includes('links'))) {
-    startRow = 1;
-  } else if (records[1] && (records[1][0].toLowerCase().includes('nama') || records[1][0].toLowerCase().includes('links'))) {
-    startRow = 2;
-  }
-  const dataRows = records.slice(startRow);
-  dataRows.forEach(cols => {
-    const get = idx => (cols[idx] !== undefined ? cols[idx].trim() : '');
-    const ulName = get(0), ulDesc = get(1), ulLink = get(2);
-    if (ulName || ulLink) usefulLinks.push({ title: ulName || ulLink, desc: ulDesc, url: ulLink });
-    const prodName = get(3), prodLink = get(4);
-    if (prodName || prodLink) productUpdates.push({ title: prodName || prodLink, desc: '', url: prodLink });
-    const deptName = get(5), deptLink = get(6);
-    if (deptName || deptLink) otherDept.push({ title: deptName || deptLink, desc: '', url: deptLink });
-    const log = get(7), date = get(8);
-    if (log) changelog.push({ date: date, text: log });
-  });
-  return { usefulLinks, productUpdates, otherDept, changelog };
-}
-
-function isValidURL(string) {
-  try { return string.startsWith('http://') || string.startsWith('https://'); }
-  catch (_) { return false; }
-}
-
-function render(data) {
-  allData = data;
-  document.getElementById('stat-links').textContent   = data.usefulLinks.length;
-  document.getElementById('stat-product').textContent = data.productUpdates.length;
-  document.getElementById('stat-dept').textContent    = data.otherDept.length;
-  document.getElementById('stat-log').textContent     = data.changelog.length;
-  const total = data.usefulLinks.length + data.productUpdates.length + data.otherDept.length;
-  document.getElementById('fc-all').textContent     = total;
-  document.getElementById('fc-links').textContent   = data.usefulLinks.length;
-  document.getElementById('fc-product').textContent = data.productUpdates.length;
-  document.getElementById('fc-dept').textContent    = data.otherDept.length;
-  document.getElementById('tab-badge-dir').textContent = total;
-  renderWhatsNew(data.changelog, 'wn-feed-dir', 'wn-count-dir');
-  renderWhatsNew(data.changelog, 'wn-feed-sch', 'wn-count-sch');
-  renderContent(data);
-}
-
-function parseDate(str) {
-  if (!str) return 0;
-  const months = { jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,aug:7,sep:8,okt:9,oct:9,nov:10,des:11,dec:11 };
-  str = str.trim().toLowerCase();
-  let m = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-  if (m) return new Date(+m[1], +m[2]-1, +m[3]).getTime();
-  m = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
-  if (m) return new Date(+m[3], +m[2]-1, +m[1]).getTime();
-  m = str.match(/^(\d{1,2})\s+([a-z]+)(?:\s+(\d{4}))?$/);
-  if (m) {
-    const mo = months[m[2].slice(0,3)];
-    if (mo !== undefined) return new Date(+(m[3]||new Date().getFullYear()), mo, +m[1]).getTime();
-  }
-  return 0;
-}
-
-function renderWhatsNew(changelog, feedId, countId) {
-  const feed = document.getElementById(feedId);
-  const countEl = document.getElementById(countId);
-  if (!feed || !countEl) return;
-  countEl.textContent = changelog.length + ' pembaruan';
-  if (!changelog.length) { feed.innerHTML = '<div class="wn-empty">Belum ada pembaruan.</div>'; return; }
-  const sorted = [...changelog].sort((a, b) => parseDate(b.date) - parseDate(a.date));
-  feed.innerHTML = sorted.map(item => `
-    <div class="wn-item">
-      <div class="wn-item-date">${item.date || '—'}</div>
-      <div class="wn-item-text">${item.text}</div>
+const fullGrid = document.getElementById('fullGrid');
+fullScore.forEach(([name, track]) => {
+  const card = document.createElement('div');
+  card.className = 'full-card';
+  card.innerHTML = `
+    <div class="trophy">🏆</div>
+    <div class="name">${name}</div>
+    <div class="track">${track}</div>
+    <div class="score-row">
+      <div>
+        <div class="score">5400</div>
+        <div class="score-label">Total Score</div>
+      </div>
     </div>
-  `).join('');
-}
+  `;
+  fullGrid.appendChild(card);
+});
 
-function renderContent(data) {
-  const q = (document.getElementById('search').value||'').toLowerCase();
-  const f = currentFilter;
-  let html = '';
-  const tagStyles = {
-    links:   'background:#e8f0fb; color:#1a3a5c',
-    product: 'background:#fdecea; color:#7b1f1a',
-    dept:    'background:#e6f2eb; color:#1a3d2a',
-  };
-  const sections = [
-    { key:'links',   label:'Useful Links',              tag:'Links',   items:data.usefulLinks },
-    { key:'product', label:'Updates from Product Team', tag:'Product', items:data.productUpdates },
-    { key:'dept',    label:'Updates from Other Dept',   tag:'Dept',    items:data.otherDept },
-  ];
-  sections.forEach(sec=>{
-    if (f !== 'all' && f !== sec.key) return;
-    const filtered = sec.items.filter(x=>
-      !q || x.title.toLowerCase().includes(q) || (x.url||'').toLowerCase().includes(q) || (x.desc||'').toLowerCase().includes(q)
-    );
-    let cardRows = '';
-    if (filtered.length === 0) {
-      cardRows = `<div class="empty">Tidak ada hasil untuk pencarian ini.</div>`;
-    } else {
-      filtered.forEach((item, i) => {
-        let extraDescHtml = '';
-        if (item.desc && item.desc.trim() !== '') {
-          let cv = item.desc.trim();
-          if (isValidURL(cv)) {
-            extraDescHtml = `<div class="desc-box"><div class="desc-label">Keterangan / Tautan Tambahan:</div><a href="${cv}" target="_blank" rel="noopener" class="desc-link">${cv}</a></div>`;
-          } else {
-            extraDescHtml = `<div class="desc-box"><div class="desc-label">Keterangan:</div><div class="desc-text">${cv}</div></div>`;
-          }
-        }
-        cardRows += `
-          <div class="directory-card" id="card-${sec.key}-${i}">
-            <div class="card-header" onclick="toggleCard('card-${sec.key}-${i}')">
-              <span class="card-num">${String(i+1).padStart(2,'0')}</span>
-              <div class="card-title-area"><div class="card-title">${item.title}</div></div>
-              <svg class="card-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="card-content">
-              ${extraDescHtml}
-              ${item.url
-                ? `<a class="card-action-btn" href="${item.url}" target="_blank" rel="noopener">Buka Tautan Utama <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
-                : `<span class="no-url-badge">Dokumen internal — tidak ada URL</span>`
-              }
-            </div>
-          </div>`;
-      });
-    }
-    html += `
-      <div class="section-block" id="sec-${sec.key}">
-        <div class="section-head">
-          <div class="section-head-left">
-            <span class="section-tag" style="${tagStyles[sec.key]}">${sec.tag}</span>
-            <span class="section-title">${sec.label}</span>
-          </div>
-          <div class="section-meta"><span>${filtered.length} item</span></div>
-        </div>
-        <div class="cards-grid">${cardRows}</div>
-      </div>`;
-  });
-  document.getElementById('content').innerHTML = html || '<div class="empty">Tidak ada hasil yang cocok.</div>';
-}
-
-function toggleCard(cardId) {
-  const c = document.getElementById(cardId);
-  if (c) c.classList.toggle('expanded');
-}
-
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.fs-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  if (allData) renderContent(allData);
-}
-
-function filterAll() {
-  if (allData) renderContent(allData);
-}
-
-async function loadData() {
-  const btn = document.querySelector('.refresh-btn');
-  btn.classList.add('loading');
-  document.getElementById('topbar-status').textContent = 'Live';
-  try {
-    const res = await fetch(CSV_URL);
-    if (!res.ok) throw new Error('HTTP '+res.status);
-    const text = await res.text();
-    const data = parseCSV(text);
-    render(data);
-  } catch(e) {
-    document.getElementById('topbar-status').textContent = 'Gagal memuat data';
-    document.getElementById('content').innerHTML = '<div class="empty">Gagal memuat data dari Google Sheet. Coba refresh kembali.</div>';
-    document.getElementById('wn-feed-dir').innerHTML = '<div class="wn-empty">Gagal memuat.</div>';
-    document.getElementById('wn-feed-sch').innerHTML = '<div class="wn-empty">Gagal memuat.</div>';
-  } finally {
-    btn.classList.remove('loading');
-  }
-}
-
-
-// ═══════════════════════════════════════
-// SCHEDULE (Tab 2) — data dari Google Sheet
-// ═══════════════════════════════════════
-
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  KONFIGURASI SCHEDULE — Google Sheet                        ║
-// ║                                                             ║
-// ║  CARA SETUP:                                                ║
-// ║  1. Buka Google Sheet kamu                                  ║
-// ║  2. Pastikan nama sheet tab adalah "Schedule1"              ║
-// ║  3. Pastikan kolom sesuai urutan:                           ║
-// ║     A: No | B: Content | C: Reference | D: When to Do      ║
-// ║     E: Departement | F: Recording Link | G: PIC | H: Time  ║
-// ║  4. Share sheet → "Anyone with the link can VIEW"           ║
-// ║  5. Ganti SCHEDULE_SHEET_ID di bawah dengan ID sheet kamu  ║
-// ║     (bagian URL: /spreadsheets/d/[ID INI]/edit)             ║
-// ╚══════════════════════════════════════════════════════════════╝
-const SCHEDULE_SHEET_ID   = '1vFBja0ZCi74xFgv51B0XfL-_2Moot2PNS3CtjOrnhrc';
-const SCHEDULE_SHEET_NAME = 'Schedule1';
-const SCHEDULE_CSV_URL    = `https://docs.google.com/spreadsheets/d/${SCHEDULE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SCHEDULE_SHEET_NAME)}`;
-
-let SCHEDULE_DATA = [];
-
-function parseScheduleCSV(text) {
-  // Parse CSV rows (RFC-4180, handles quoted multiline cells)
-  const records = [];
-  let i = 0, n = text.length;
-  while (i < n) {
-    const row = [];
-    while (true) {
-      let cell = '';
-      if (text[i] === '"') {
-        i++;
-        while (i < n) {
-          if (text[i] === '"' && text[i+1] === '"') { cell += '"'; i += 2; }
-          else if (text[i] === '"') { i++; break; }
-          else { cell += text[i++]; }
-        }
-      } else {
-        while (i < n && text[i] !== ',' && text[i] !== '\r' && text[i] !== '\n') cell += text[i++];
-      }
-      row.push(cell.trim());
-      if (text[i] === ',') { i++; continue; }
-      if (text[i] === '\r') i++;
-      if (text[i] === '\n') i++;
-      break;
-    }
-    if (row.some(c => c !== '')) records.push(row);
-  }
-
-  if (!records.length) return [];
-
-  // ╔══════════════════════════════════════════════════════════════╗
-  // ║  FORMAT KOLOM GOOGLE SHEET "Schedule1" (sesuai CSV):        ║
-  // ║  Col A (0): No                                              ║
-  // ║  Col B (1): Content                                         ║
-  // ║  Col C (2): Reference                                       ║
-  // ║  Col D (3): When to Do                                      ║
-  // ║  Col E (4): Departement                                     ║
-  // ║  Col F (5): Recording Link                                  ║
-  // ║  Col G (6): PIC                                             ║
-  // ║  Col H (7): Time                                            ║
-  // ╚══════════════════════════════════════════════════════════════╝
-
-  // Deteksi baris header: skip semua baris awal yang bukan angka di kolom pertama
-  let startRow = 0;
-  for (let r = 0; r < Math.min(3, records.length); r++) {
-    const firstCell = (records[r][0] || '').trim();
-    if (!firstCell || isNaN(parseInt(firstCell))) {
-      startRow = r + 1;
-    } else {
-      break;
-    }
-  }
-
-  const data = [];
-  records.slice(startRow).forEach((cols, idx) => {
-    const get = (j) => (cols[j] !== undefined ? cols[j].trim() : '');
-    const noVal = parseInt(get(0));
-    // Ambil URL pertama jika recording/ref mengandung beberapa baris
-    const extractFirstUrl = (val) => {
-      if (!val) return '';
-      const lines = val.split(/\n|\r/);
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('http')) return trimmed;
-      }
-      return val.split(/\n|\r/)[0].trim();
-    };
-    data.push({
-      no:        isNaN(noVal) ? (idx + 1) : noVal,
-      content:   get(1),
-      ref:       get(2),
-      when:      get(3),
-      dept:      get(4),
-      recording: extractFirstUrl(get(5)),
-      pic:       get(6),
-      time:      get(7),
-    });
-  });
-
-  return data.filter(d => d.content || d.when);
-}
-
-async function loadScheduleData() {
-  const content = document.getElementById('schedule-content');
-  content.innerHTML = '<div class="sch-empty">⏳ Memuat jadwal dari Google Sheet…</div>';
-  try {
-    const res = await fetch(SCHEDULE_CSV_URL);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    SCHEDULE_DATA = parseScheduleCSV(text);
-    // Update badge count
-    document.getElementById('tab-badge-sch').textContent = SCHEDULE_DATA.length;
-    const schGroups = groupByWeek(SCHEDULE_DATA);
-    renderScheduleWeekNav(schGroups);
-    renderSchedule();
-  } catch (e) {
-    content.innerHTML = `<div class="sch-empty">❌ Gagal memuat jadwal dari Google Sheet.<br><small style="color:var(--muted)">${e.message}</small><br><br><button onclick="loadScheduleData()" style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:4px;cursor:pointer;">Coba Lagi</button></div>`;
-    console.error('Schedule load error:', e);
-  }
-}
-
-// Parse week number from "when" string
-function getWeekNum(when) {
-  const m = when.match(/week\s*(\d)/i);
-  return m ? parseInt(m[1]) : -1;
-}
-
-// Get day from "when" string
-function getDayLabel(when) {
-  const days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-  const w = when.toLowerCase();
-  for (const d of days) {
-    if (w.includes(d)) return d.charAt(0).toUpperCase() + d.slice(1);
-  }
-  return '';
-}
-
-// Group schedule by week
-function groupByWeek(data) {
-  const map = {};
-  data.forEach(item => {
-    const w = getWeekNum(item.when);
-    const key = w >= 0 ? `Week ${w}` : 'Lainnya';
-    if (!map[key]) map[key] = { label: key, weekNum: w, items: [] };
-    map[key].items.push(item);
-  });
-  return Object.values(map).sort((a,b) => a.weekNum - b.weekNum);
-}
-
-let schView = 'table';
-let schWeekFilter = 'all';
-
-function setSchView(v) {
-  schView = v;
-  document.getElementById('vbtn-table').classList.toggle('active', v === 'table');
-  document.getElementById('vbtn-timeline').classList.toggle('active', v === 'timeline');
-  renderSchedule();
-}
-
-function setWeekFilter(w, el) {
-  schWeekFilter = w;
-  document.querySelectorAll('.week-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  renderSchedule();
-}
-
-function weekPillClass(weekNum) {
-  const cls = ['w0','w1','w2','w3','w4','w5','w6','w7'];
-  return cls[weekNum] || '';
-}
-
-function refHtml(ref) {
-  if (!ref) return '<span class="ref-text">—</span>';
-  // Deteksi URL di dalam teks (bisa di awal, tengah, atau setelah newline)
-  const urlRegex = /(https?:\/\/[^\s"<>]+)/g;
-  if (urlRegex.test(ref)) {
-    // Reset lastIndex setelah .test()
-    urlRegex.lastIndex = 0;
-    const urls = [];
-    let match;
-    while ((match = urlRegex.exec(ref)) !== null) urls.push(match[1]);
-    // Jika seluruh konten adalah URL murni
-    if (urls.length === 1 && ref.replace(urls[0], '').trim() === '') {
-      const label = urls[0].length > 45 ? urls[0].slice(0, 45) + '…' : urls[0];
-      return `<a href="${urls[0]}" target="_blank" rel="noopener" class="ref-link">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        ${label}
-      </a>`;
-    }
-    // Jika teks campuran (ada teks + URL), tampilkan teks lalu link terpisah
-    const nonUrlText = ref.replace(urlRegex, '').replace(/\n|\r/g, ' ').trim();
-    let html = '';
-    if (nonUrlText) html += `<span class="ref-text">${nonUrlText}</span> `;
-    urls.forEach(url => {
-      const label = url.length > 40 ? url.slice(0, 40) + '…' : url;
-      html += `<a href="${url}" target="_blank" rel="noopener" class="ref-link" style="margin-top:4px;display:inline-flex">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        ${label}
-      </a> `;
-    });
-    return html;
-  }
-  // Teks biasa tanpa URL
-  return `<span class="ref-text">${ref}</span>`;
-}
-
-function recHtml(rec) {
-  if (!rec) return '';
-  if (rec.startsWith('http')) {
-    return `<a href="${rec}" target="_blank" rel="noopener" class="rec-link">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-      Recording
-    </a>`;
-  }
-  return `<span class="ref-text">${rec}</span>`;
-}
-
-function renderScheduleWeekNav(groups) {
-  const nav = document.getElementById('week-nav');
-  let html = `<div class="week-item active" id="wf-all" onclick="setWeekFilter('all', this)">
-    <div class="week-item-left">☰ Semua</div>
-    <span class="week-count">${SCHEDULE_DATA.length}</span>
-  </div>`;
-  groups.forEach(g => {
-    html += `<div class="week-item" id="wf-${g.label.replace(' ','')}" onclick="setWeekFilter('${g.label}', this)">
-      <div class="week-item-left">${g.label}</div>
-      <span class="week-count">${g.items.length}</span>
-    </div>`;
-  });
-  nav.innerHTML = html;
-}
-
-function renderSchedule() {
-  const q = (document.getElementById('sch-search').value||'').toLowerCase();
-  let filtered = SCHEDULE_DATA.filter(item =>
-    !q ||
-    item.content.toLowerCase().includes(q) ||
-    item.when.toLowerCase().includes(q) ||
-    item.dept.toLowerCase().includes(q) ||
-    item.pic.toLowerCase().includes(q) ||
-    item.ref.toLowerCase().includes(q)
-  );
-  if (schWeekFilter !== 'all') {
-    filtered = filtered.filter(item => {
-      const w = getWeekNum(item.when);
-      return `Week ${w}` === schWeekFilter;
-    });
-  }
-
-  const content = document.getElementById('schedule-content');
-
-  if (!filtered.length) {
-    content.innerHTML = '<div class="sch-empty">Tidak ada kegiatan yang cocok.</div>';
-    return;
-  }
-
-  if (schView === 'table') {
-    let rows = filtered.map(item => {
-      const wn = getWeekNum(item.when);
-      return `<tr>
-        <td class="col-no">${String(item.no).padStart(2,'0')}</td>
-        <td>${item.content}</td>
-        <td class="col-week"><span class="week-pill ${weekPillClass(wn)}">${item.when}</span></td>
-        <td>${item.dept ? `<span class="dept-badge">${item.dept}</span>` : '<span style="color:var(--muted);font-size:11px">—</span>'}</td>
-        <td>${refHtml(item.ref)}</td>
-        <td>${recHtml(item.recording)}</td>
-        <td>${item.pic ? `<span class="pic-badge">${item.pic}</span>` : ''}</td>
-        <td>${item.time ? `<span class="time-badge">${item.time}</span>` : '<span style="color:var(--muted);font-size:11px">—</span>'}</td>
-      </tr>`;
-    }).join('');
-
-    content.innerHTML = `<div class="sch-table-wrap">
-      <table class="sch-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Kegiatan</th>
-            <th>Waktu</th>
-            <th>Dept</th>
-            <th>Referensi</th>
-            <th>Recording</th>
-            <th>PIC</th>
-            <th>Jam</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
-  } else {
-    // Timeline view — group by week then by day
-    const byWeek = {};
-    filtered.forEach(item => {
-      const w = getWeekNum(item.when);
-      const wk = `Week ${w}`;
-      if (!byWeek[wk]) byWeek[wk] = { weekNum: w, byDay: {} };
-      const day = getDayLabel(item.when) || 'Lainnya';
-      if (!byWeek[wk].byDay[day]) byWeek[wk].byDay[day] = [];
-      byWeek[wk].byDay[day].push(item);
-    });
-
-    const dayOrder = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday','Lainnya'];
-
-    let html = '<div class="sch-timeline">';
-    Object.entries(byWeek)
-      .sort((a,b) => a[1].weekNum - b[1].weekNum)
-      .forEach(([wk, val]) => {
-        const totalItems = Object.values(val.byDay).reduce((s,a)=>s+a.length,0);
-        html += `<div class="timeline-week-block open" id="twb-${wk.replace(' ','')}">
-          <div class="timeline-week-head" onclick="toggleTimelineWeek('twb-${wk.replace(' ','')}')">
-            <span class="timeline-week-label">${wk}</span>
-            <span class="timeline-week-count">${totalItems} kegiatan</span>
-            <svg class="timeline-week-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="timeline-days">`;
-
-        dayOrder.forEach(day => {
-          if (!val.byDay[day]) return;
-          html += `<div class="timeline-day-group">
-            <div class="timeline-day-head">
-              <div class="timeline-day-dot"></div>
-              <div class="timeline-day-label">${day}</div>
-            </div>
-            <div class="timeline-items">`;
-          val.byDay[day].forEach(item => {
-            const wn = getWeekNum(item.when);
-            html += `<div class="timeline-item">
-              <span class="timeline-item-num">${String(item.no).padStart(2,'0')}</span>
-              <div class="timeline-item-body">
-                <div class="timeline-item-title">${item.content}</div>
-                <div class="timeline-item-meta">
-                  ${item.dept ? `<span class="dept-badge">${item.dept}</span>` : ''}
-                  ${item.pic ? `<span class="pic-badge">${item.pic}</span>` : ''}
-                  ${item.time ? `<span class="time-badge">🕐 ${item.time}</span>` : ''}
-                  ${recHtml(item.recording)}
-                </div>
-                ${item.ref ? `<div class="timeline-item-ref">${refHtml(item.ref)}</div>` : ''}
-              </div>
-            </div>`;
-          });
-          html += `</div></div>`;
-        });
-
-        html += `</div></div>`;
-      });
-    html += '</div>';
-    content.innerHTML = html;
-  }
-}
-
-function toggleTimelineWeek(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('open');
-}
-
-// ═══════════════════════════════════════
-// TAB SWITCHING
-// ═══════════════════════════════════════
-function switchTab(tab, el) {
-  document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.page-panel').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('panel-' + tab).classList.add('active');
-}
-
-// ═══════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════
-loadData();
-
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  BAGIAN YANG DIUBAH: Inisialisasi Schedule dari Google Sheet ║
-// ╚══════════════════════════════════════════════════════════════╝
-loadScheduleData();
+const compList = document.getElementById('compList');
+completedNotFull.forEach(([name, score, track], i) => {
+  const row = document.createElement('div');
+  row.className = 'comp-row';
+  row.innerHTML = `
+    <div class="comp-rank">${i + 1}</div>
+    <div class="comp-name">${name}</div>
+    <div class="comp-track">${track}</div>
+    <div class="comp-meta">
+      <span class="comp-score">${score.toLocaleString('id-ID')}</span>
+      <span class="comp-check">✓ 100%</span>
+    </div>
+  `;
+  compList.appendChild(row);
+});
 </script>
+
 </body>
 </html>
